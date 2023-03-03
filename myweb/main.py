@@ -10,7 +10,7 @@ def index():
     return render_template('scatter-aqi-color.html')
 
 ##设置数据集[日期，位置，次数]
-@app.route('/')
+@app.route('/scatter')
 def scatter_data():
     data = {}
     data1 = [
