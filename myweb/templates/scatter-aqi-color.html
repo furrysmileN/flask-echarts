@@ -1,0 +1,171 @@
+<!--
+	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=scatter-aqi-color
+-->
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+<script type="text/javascript" src="../static/js/jquery-3.6.3.min.js"></script>
+<script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+  <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/dataTool.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
+  -->
+  <!-- Uncomment these two lines if you want to use bmap extension
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/bmap.min.js"></script>
+  -->
+
+  <script type="text/javascript">
+    $.ajax({
+    type:'GET',
+    url:"http://127.0.0.1:5000/",
+    dataType:'json',
+    success:function(data){
+          console.log(data);
+          //html原本的js代码
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    var option;
+
+const schema = [
+  { name: 'date', index: 0, text: '日' },
+  { name: 'Location', index: 1, text: 'Location' },
+  { name: 'Attendance', index: 2, text: 'Attendance' },
+,
+];
+const itemStyle = {
+  opacity: 0.8,
+  shadowBlur: 10,
+  shadowOffsetX: 0,
+  shadowOffsetY: 0,
+  shadowColor: 'rgba(0,0,0,0.3)'
+};
+option = {
+  color: ['#dd4444', '#fec42c', '#80F1BE'],
+  legend: {
+    top: 10,
+    data: ['User1', 'User2', 'User3'],
+    textStyle: {
+      fontSize: 16
+    }
+  },
+  grid: {
+    left: '10%',
+    right: 150,
+    top: '18%',
+    bottom: '10%'
+  },
+  tooltip: {
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    formatter: function (param) {
+      var value = param.value;
+      // prettier-ignore
+      return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
+                + param.seriesName + ' ' + value[0] + '日：' + '</div>'
+                + schema[1].text + '：' + value[1] + '<br>'
+                + schema[2].text + '：' + value[2] + '<br>';
+    }
+  },
+  xAxis: {
+    type: 'value',
+    name: 'date',
+    nameTextStyle: {
+      fontSize: 16
+    },
+    max: 31,
+    splitLine: {
+      show: false
+    }
+  },
+  yAxis: {
+    type: 'category',
+    name: 'Smartbox No.',
+    nameLocation: 'end',
+    nameTextStyle: {
+      fontSize: 16
+    },
+    splitLine: {
+      show: false
+    }
+  },
+  
+  visualMap: [
+    {
+      left: 'right',
+      top: '10%',
+      dimension: 2,
+      min: 0,
+      max: 250,
+      itemWidth: 30,
+      itemHeight: 120,
+      calculable: true,
+      precision: 0.1,
+      text: ['圆形大小：Attendance'],
+      textGap: 30,
+      inRange: {
+        symbolSize: [10, 70]
+      },
+      outOfRange: {
+        symbolSize: [10, 70],
+        color: ['rgba(255,255,255,0.4)']
+      },
+      controller: {
+        inRange: {
+          color: ['#c23531']
+        },
+        outOfRange: {
+          color: ['#999']
+        }
+      }
+    },
+    
+  ],
+  series: [
+    {
+      name: 'User1',
+      type: 'scatter',
+      itemStyle: itemStyle,
+      data: data['data1']
+    },
+    {
+      name: 'User2',
+      type: 'scatter',
+      itemStyle: itemStyle,
+      data: data['data2']
+    },
+    {
+      name: 'User3',
+      type: 'scatter',
+      itemStyle: itemStyle,
+      data: data['data3']
+    }
+  ]
+};
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+    }
+});
+  </script>
+</body>
+</html>
