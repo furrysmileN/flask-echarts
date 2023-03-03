@@ -4,11 +4,12 @@ import json
 from flask import Flask,render_template,request,Response,redirect,url_for
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
+##引用html
 @app.route('/')
 def index():
     return render_template('scatter-aqi-color.html')
 
-
+##设置数据集[日期，位置，次数]
 @app.route('/')
 def scatter_data():
     data = {}
@@ -27,12 +28,14 @@ def scatter_data():
   [26, 'smartbox2', 108],[27, 'smartbox2', 48],[28, 'smartbox1', 48],[29, 'smartbox6', 92],[30, 'smartbox3', 116],[31, 'smartbox5', 50]
 ]
     data['data2'] = data2
-    data3 =[
+    data3 =[[1, 'smartbox5', 45],[2, 'smartbox4', 27],[3, 'smartbox2', 60],[4, 'smartbox6', 81],[5, 'smartbox3', 77],[6, 'smartbox5', 81],[7, 'smartbox4', 77],
+  [8, 'smartbox2', 65],[9, 'smartbox3', 33],[10, 'smartbox3', 55],[11, 'smartbox5', 81],[12, 'smartbox2', 71],[13, 'smartbox1', 69],[14, 'smartbox3', 87],
+  [15, 'smartbox2', 8],[16, 'smartbox5', 83],[17, 'smartbox6', 43],[18, 'smartbox3', 46],[19, 'smartbox4', 71],[20, 'smartbox2', 57],[21, 'smartbox1', 63],
+  [22, 'smartbox6', 77],[23, 'smartbox4', 62],[24, 'smartbox5', 128],[25, 'smartbox3', 45],[26, 'smartbox1', 24],[27, 'smartbox4', 39],[28, 'smartbox5', 68],
+  [29, 'smartbox3', 143],[30, 'smartbox1', 131],[31, 'smartbox4', 143]
 ]
     data['data3'] = data3
     return Response(json.dumps(data), mimetype='application/json')
-
-
 
 ###获取（传递）参数​
 @app.route('/alldata')
