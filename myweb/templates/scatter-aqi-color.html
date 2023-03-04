@@ -29,13 +29,14 @@
   -->
 
   <script type="text/javascript">
-    $.ajax({
+$.ajax({
     type:'GET',
-    url:"http://127.0.0.1:5000/",
+    url:"http://127.0.0.1:5000/scatter",
     dataType:'json',
     success:function(data){
           console.log(data);
-          //html原本的js代码
+
+   
     var dom = document.getElementById('container');
     var myChart = echarts.init(dom, null, {
       renderer: 'canvas',
@@ -43,7 +44,6 @@
     });
     var app = {};
     var option;
-
 const schema = [
   { name: 'date', index: 0, text: '日' },
   { name: 'Location', index: 1, text: 'Location' },
